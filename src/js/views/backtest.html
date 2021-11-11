@@ -1,0 +1,54 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<STYLE TYPE="text/css">
+<!--
+  /*@import url(css/oj-redwood-min.css);*/
+-->
+</STYLE>
+<div id="circle"></div>
+<div class="">     
+    <oj-form-layout id="ofl1" label-edge="[[labelEdge]]" max-columns="[[columns]]"> 
+        <oj-input-text slot="value" id="input" value="[[start]]" label-hint="Inicio:" readonly></oj-input-text>                            
+        <oj-input-text slot="value" id="input" value="[[end]]" label-hint="Fin:" readonly></oj-input-text>                            
+        <oj-input-text slot="value" id="input" value="[[numberOfTrades]]" label-hint="NumberOfTrades:" readonly></oj-input-text>                            
+        <oj-input-text slot="value" id="input" value="[[profitableTradesRatio]]" label-hint="ProfitableTradesRatio:" readonly></oj-input-text>                            
+        <oj-input-text slot="value" id="input" value="[[rewardRiskRatio]]" label-hint="RewardRiskRatio:" readonly></oj-input-text>                            
+        <oj-input-text slot="value" id="input" value="[[vsBuyAndHoldRatio]]" label-hint="vsBuyAndHoldRatio:" readonly></oj-input-text>                        
+        <oj-input-text slot="value" id="input" value="[[cashFlow]]" label-hint="CashFlow:" readonly></oj-input-text>        
+    </oj-form-layout>            
+    
+</div>     
+<br>
+<div style="width: 1px; min-width: 100%;">   
+    <div class="oj-typography-heading-md" style="text-align: center;" data-bind="text:name">        
+    </div>    
+    <oj-chart id="stockChart"
+      type="stock"
+      data="[[dataProvider]]"
+      zoom-and-scroll="live"
+      overview.rendered="on"
+      x-axis="[[xAxis]]"
+      y-axis.tick-label="[[yAxisConverter]]"
+      legend.rendered="off"
+      hide-and-show-behavior="withRescale"
+      data-cursor="on"
+      on-oj-viewport-change="[[viewportChange]]"
+      style="width:100%;">
+      <template slot="itemTemplate" data-oj-as="item">
+        <oj-chart-item 
+          open="[[item.data.openPrice]]" 
+          close="[[item.data.closePrice]]" 
+          high="[[item.data.maxPrice]]"
+          low="[[item.data.minPrice]]" 
+          volume="[[item.data.volume]]"
+          group-id="[[ [item.data.group] ]]" series-id="kk">
+        </oj-chart-item>
+      </template>
+      <template slot="seriesTemplate" data-oj-as="series">
+        <oj-chart-series type="[[seriesTypeValue]]"></oj-chart-series>
+      </template>
+    </oj-chart>
+</div>

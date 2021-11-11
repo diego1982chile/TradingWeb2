@@ -1,0 +1,170 @@
+<!--
+ Copyright (c) 2014, 2020, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<STYLE TYPE="text/css">
+
+</STYLE>
+
+<SCRIPT>      
+    
+</SCRIPT>
+
+<div id="circle"></div>
+
+<div id="form-container" class="oj-web-applayout-max-width oj-web-applayout-content">
+  <div class="oj-flex">
+    <div class="oj-xl-3 oj-lg-3 oj-md-4 oj-sm-12 oj-flex-item oj-flex">
+      <div id="navigationContent" role="navigation" class="oj-panel oj-margin oj-flex-item">
+            <oj-combobox-one id="combobox1" value="{{value1}}" style="max-width: 24em;">
+                    <oj-option value="IE">Internet Explorer</oj-option>
+                    <oj-option value="FF">Firefox</oj-option>
+                    <oj-option value="CH">Chrome</oj-option>
+                    <oj-option value="OP">Opera</oj-option>
+                    <oj-option value="SA">Safari</oj-option>
+                </oj-combobox-one>
+            <div id='buttons-container' style="text-align: right">
+                <h5 style="float:left">BackTests</h5>
+                <oj-button display='icons'>
+                    <span slot='startIcon' class="oj-fwk-icon oj-fwk-icon-plus"></span>
+                    Nuevo
+                </oj-button>
+                <oj-button display='icons'>
+                    <span slot='startIcon' class="oj-fwk-icon oj-fwk-icon-warning"></span>
+                    Eliminar
+                </oj-button>
+            </div>
+            <div id='buttons-container2'>
+                <oj-combobox-one id="combobox1" value="{{selectedTimeFrame}}" style="max-width: 24em;">
+                  <oj-bind-for-each data="[[timeFrames]]">
+                      <template>
+                          <oj-option value="[[$current.data.id]]">
+                              <span>
+                                  <oj-bind-text value="[[$current.data.name]]"></oj-bind-text>
+                              </span>              
+                          </oj-option>
+                      </template>
+                  </oj-bind-for-each>
+                </oj-combobox-one>
+            </div>
+            <!-- Ticket List -->
+            <div id='listviewWrapper' class="list-view-container">
+                <!--oj-paging-control id="paging" data="[[backTestListDataSource]]" page-size="4">
+                </oj-paging-control-->
+                <oj-list-view id='listview'
+                aria-label="listview with paging control"                               
+                class='oj-sm-12'
+                data='[[backTestListDataSource]]'
+                selection-mode='single' selection="{{selectedBackTest}}"
+                on-selection-changed="[[backtestListSelectionChanged]]"
+                selection-required='true' style="height: 320px;overflow-x: hidden;"
+                scroll-position="{{scrollPos}}" on-scroll-position-changed="[[handleScrollPositionChanged]]"
+                scroll-policy="loadMoreOnScroll" scroll-policy-options.fetch-size="100"
+                item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('ticket-list-template', true)]]">
+                </oj-list-view>
+                <script type="text/html" id="ticket-list-template">
+                    <li data-bind="attr: {id: $data['id']}">
+                      <div class="oj-flex">
+                        <div class="oj-sm-12">
+                          <strong>BackTest ID:</strong>	
+                          <oj-bind-text value="[[id]]"></oj-bind-text>
+                        </div>
+                      </div>
+                      <div class="oj-flex oj-sm-padding-2x-top oj-sm-padding-2x-bottom">
+                        <oj-bind-text value="[[name]]"></oj-bind-text>
+                      </div>
+                    </li>
+                </script>
+            </div>
+            
+            <div class="oj-panel oj-flex-item">                      
+                <div id='buttons-container' style="text-align: right">
+                    <h5 style="float:left">ForwardTests</h5>
+                    <oj-button display='icons'>
+                        <span slot='startIcon' class="oj-fwk-icon oj-fwk-icon-plus"></span>
+                        Nuevo
+                    </oj-button>
+                    <oj-button display='icons'>
+                        <span slot='startIcon' class="oj-fwk-icon oj-fwk-icon-warning"></span>
+                        Eliminar
+                    </oj-button>
+                </div>
+                
+                <!-- Ticket List -->
+                <div id='listviewWrapper' class="list-view-container">
+                    <!--oj-paging-control id="paging" data="[[forwardTestListDataSource]]" page-size="4">
+                    </oj-paging-control-->
+                    <oj-list-view id='listview'
+                    aria-label="listview with paging control"   
+                    selection-mode='single' selection="{{selectedForwardTest}}"
+                    on-selection-changed="[[forwardtestListSelectionChanged]]"
+                    class='oj-sm-12' selection-required="[[selectionRequired]]"
+                    data='[[forwardTestListDataSource]]'                    
+                    item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('ticket-list-template', true)]]">
+                    </oj-list-view>
+                    <script type="text/html" id="ticket-list-template">
+                        <li data-bind="attr: {id: $data['id']}">
+                          <!--div class="oj-flex">
+                            <div class="oj-sm-12">
+                              <strong>BackTest ID:</strong>	
+                              <oj-bind-text value="[[id]]"></oj-bind-text>
+                            </div>
+                          </div-->
+                          <div class="oj-flex oj-sm-padding-2x-top oj-sm-padding-2x-bottom">
+                            <oj-bind-text value="[[name]]"></oj-bind-text>
+                          </div>
+                        </li>
+                    </script>
+                </div>                 
+          </div>                        
+      </div>
+    </div>
+    <div class="oj-xl-9 oj-lg-9  oj-md-8 oj-sm-12 oj-flex-item oj-flex">
+      <div id="mainContent" role="main" class="oj-panel oj-margin oj-flex-item">
+          
+        <!-- Tab Bar -->
+        <div class="oj-flex oj-sm-padding-2x-top tabbar-container">
+          <oj-conveyor-belt class="oj-sm-12">
+            <oj-tab-bar 
+              contextmenu="tabmenu" 
+              id="ticket-tab-bar" 
+              selection="{{selectedTabItem}}"
+              on-selection-changed="[[tabSelectionChanged]]"
+              edge="top" 
+              data="[[tabBarDataSource]]"
+              item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('tab-template', true)]]" 
+              on-oj-remove="[[onTabRemove]]" 
+              class="oj-sm-12 oj-sm-condense">
+              <oj-menu slot="contextMenu" style="display:none" aria-label="Actions">
+                <oj-option data-oj-command="oj-tabbar-remove">
+                  Removable
+                </oj-option>
+              </oj-menu>
+            </oj-tab-bar>
+          </oj-conveyor-belt>
+        </div>
+        <script type="text/html" id="tab-template">
+          <li class="oj-removable" data-bind="css:{'oj-disabled' : $data['disabled']=='true'}">
+                <a href="#">
+                    <oj-bind-text value='[[name]]'></oj-bind-text>
+                </a>
+          </li>
+        </script>
+        <!-- Tab Bar-->
+        
+        <div class="oj-panel oj-flex-item" id="backtest" style="display:none">
+          <div data-bind="ojModule: { name: 'backtest', params: {backtestModel: selectedBackTestModel}}"
+          class="oj-sm-padding-4x">
+          </div>
+        </div>
+        
+        <div class="oj-panel oj-flex-item" id="forwardtest" style="display:none">
+          <div data-bind="ojModule: { name: 'forwardtest', params: {forwardtestModel: selectedForwardTestModel}}"
+          class="oj-sm-padding-4x">
+          </div>
+        </div>
+          
+      </div>
+    </div>
+  </div>
+</div>
